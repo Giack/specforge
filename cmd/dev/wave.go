@@ -11,6 +11,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// execCommand is the factory used to create exec.Cmd values. Tests override
+// this to capture command arguments without running real subprocesses.
+var execCommand = exec.Command
+
 func subAgentCmd(cfg *config.Config) *cobra.Command {
 	var phase int
 
@@ -89,7 +93,7 @@ echo "%s" | claude -p --dangerously-skip-permissions
 		return fmt.Errorf("failed to write script: %w", err)
 	}
 
-	execCmd := exec.Command("bash", scriptFile)
+	execCmd := execCommand("bash", scriptFile)
 	execCmd.Stdout = os.Stdout
 	execCmd.Stderr = os.Stderr
 	execCmd.Stdin = os.Stdin
@@ -110,7 +114,7 @@ echo "%s" | opencode -p
 		return fmt.Errorf("failed to write script: %w", err)
 	}
 
-	execCmd := exec.Command("bash", scriptFile)
+	execCmd := execCommand("bash", scriptFile)
 	execCmd.Stdout = os.Stdout
 	execCmd.Stderr = os.Stderr
 	execCmd.Stdin = os.Stdin

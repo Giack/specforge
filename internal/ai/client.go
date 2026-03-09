@@ -8,9 +8,25 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
 	"specforge/internal/config"
 )
+
+// claudeBaseURL is the Anthropic API endpoint. Tests can override this to point
+// at a local httptest.Server.
+var claudeBaseURL = "https://api.anthropic.com/v1/messages"
+
+// httpClientTimeout is the default timeout applied to every HTTP client created
+// by callClaude. Tests can override this to a shorter value.
+var httpClientTimeout = 30 * time.Second
+
+// newHTTPClient is a factory used by callClaude to create an *http.Client.
+// Tests can replace this to inject a client with a shorter timeout or other
+// behaviour without modifying production logic.
+var newHTTPClient = func() *http.Client {
+	return &http.Client{Timeout: httpClientTimeout}
+}
 
 type ClaudeRequest struct {
 	Model     string    `json:"model"`
@@ -135,7 +151,7 @@ func (a *AIClient) callClaude(prompt string) (string, error) {
 		return "", err
 	}
 
-	req, err := http.NewRequest("POST", "https://api.anthropic.com/v1/messages", bytes.NewReader(body))
+	req, err := http.NewRequest("POST", claudeBaseURL, bytes.NewReader(body))
 	if err != nil {
 		return "", err
 	}
@@ -144,7 +160,7 @@ func (a *AIClient) callClaude(prompt string) (string, error) {
 	req.Header.Add("anthropic-version", "2023-06-01")
 	req.Header.Add("Content-Type", "application/json")
 
-	client := &http.Client{}
+	client := newHTTPClient()
 	resp, err := client.Do(req)
 	if err != nil {
 		return "", err
