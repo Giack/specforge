@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 
 	"specforge/internal/config"
 )
@@ -26,7 +27,7 @@ type JiraIssue struct {
 func NewJiraClient(cfg config.AtlassianConfig) *JiraClient {
 	return &JiraClient{
 		config: cfg,
-		client: &http.Client{},
+		client: &http.Client{Timeout: 30 * time.Second},
 	}
 }
 
@@ -135,7 +136,7 @@ type ConfluenceClient struct {
 func NewConfluenceClient(cfg config.AtlassianConfig) *ConfluenceClient {
 	return &ConfluenceClient{
 		config: cfg,
-		client: &http.Client{},
+		client: &http.Client{Timeout: 30 * time.Second},
 	}
 }
 

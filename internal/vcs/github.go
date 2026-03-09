@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	"specforge/internal/config"
 )
@@ -31,7 +32,7 @@ type GitHubPRResponse struct {
 func NewGitHubClient(cfg config.GitHubConfig) *GitHubClient {
 	return &GitHubClient{
 		config: cfg,
-		client: &http.Client{},
+		client: &http.Client{Timeout: 30 * time.Second},
 	}
 }
 

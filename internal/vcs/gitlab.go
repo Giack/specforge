@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"time"
 
 	"specforge/internal/config"
 )
@@ -32,7 +33,7 @@ type GitLabMRResponse struct {
 func NewGitLabClient(cfg config.GitLabConfig) *GitLabClient {
 	return &GitLabClient{
 		config: cfg,
-		client: &http.Client{},
+		client: &http.Client{Timeout: 30 * time.Second},
 	}
 }
 

@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 
 	"specforge/internal/config"
 )
@@ -30,7 +31,7 @@ type BitbucketPRResponse struct {
 func NewBitbucketClient(cfg config.BitbucketConfig) *BitbucketClient {
 	return &BitbucketClient{
 		config: cfg,
-		client: &http.Client{},
+		client: &http.Client{Timeout: 30 * time.Second},
 	}
 }
 
