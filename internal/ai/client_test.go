@@ -88,7 +88,8 @@ func TestCallClaudeResponseDecoding(t *testing.T) {
 // server that sleeps 5 s, and expects callClaude to fail with a
 // timeout/deadline error within 3 s.
 func TestAIClientTimeout(t *testing.T) {
-	t.Parallel()
+	// Not parallel: mutates package-level newHTTPClient var which would race
+	// with TestCallClaudeResponseDecoding if both ran concurrently.
 
 	// Server that deliberately takes longer than the injected client timeout.
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

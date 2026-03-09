@@ -40,19 +40,24 @@ type Message struct {
 }
 
 type ClaudeResponse struct {
-	Choices []Choice `json:"choices"`
+	Content []ContentBlock `json:"content"`
 }
 
-type Choice struct {
-	Message Message `json:"message"`
+type ContentBlock struct {
+	Type string `json:"type"`
+	Text string `json:"text"`
 }
 
 type AIClient struct {
 	config config.AIConfig
+	client *http.Client
 }
 
 func NewAIClient(cfg config.AIConfig) *AIClient {
-	return &AIClient{config: cfg}
+	return &AIClient{
+		config: cfg,
+		client: newHTTPClient(),
+	}
 }
 
 func (a *AIClient) GenerateSpec(content string, specType string) (string, error) {
@@ -160,8 +165,7 @@ func (a *AIClient) callClaude(prompt string) (string, error) {
 	req.Header.Add("anthropic-version", "2023-06-01")
 	req.Header.Add("Content-Type", "application/json")
 
-	client := newHTTPClient()
-	resp, err := client.Do(req)
+	resp, err := a.client.Do(req)
 	if err != nil {
 		return "", err
 	}
@@ -172,11 +176,11 @@ func (a *AIClient) callClaude(prompt string) (string, error) {
 		return "", err
 	}
 
-	if len(result.Choices) == 0 {
+	if len(result.Content) == 0 {
 		return "", fmt.Errorf("no response from Claude")
 	}
 
-	return result.Choices[0].Message.Content, nil
+	return result.Content[0].Text, nil
 }
 
 func (a *AIClient) callOpenCode(prompt string) (string, error) {
