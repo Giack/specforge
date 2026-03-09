@@ -12,7 +12,7 @@ SpecForge is extended from a partially broken Go CLI into a full GSD workflow in
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Debt and Security Clearance** - Fix broken Anthropic API client and shell injection before any new feature work
+- [x] **Phase 1: Debt and Security Clearance** - Fix broken Anthropic API client and shell injection before any new feature work (completed 2026-03-09)
 - [ ] **Phase 2: Codebase Mapping** - `specforge map` command producing all 7 GSD codebase documents from Go AST analysis
 - [ ] **Phase 3: Memory and GSD Docs** - Memory scaffolding and GSD planning document generation as CLI commands
 - [ ] **Phase 4: MCP Server and Claude Code Integration** - Wrap all CLI capabilities as MCP tools; register with Claude Code
@@ -74,7 +74,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Debt and Security Clearance | 2/3 | In Progress|  |
+| 1. Debt and Security Clearance | 3/3 | Complete   | 2026-03-09 |
 | 2. Codebase Mapping | 0/TBD | Not started | - |
 | 3. Memory and GSD Docs | 0/TBD | Not started | - |
 | 4. MCP Server and Claude Code Integration | 0/TBD | Not started | - |

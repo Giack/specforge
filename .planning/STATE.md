@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-02-PLAN.md — FOUND-01 and FOUND-03 fixed, all 7 tests GREEN
-last_updated: "2026-03-09T20:08:21.665Z"
+stopped_at: Completed 01-03-PLAN.md — FOUND-02 fixed, shell injection eliminated, all tests GREEN
+last_updated: "2026-03-09T20:12:03.317Z"
 last_activity: 2026-03-09 — Completed 01-01 (TDD red scaffolding for FOUND-01, FOUND-02, FOUND-03)
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
   percent: 67
 ---
 
@@ -51,6 +51,7 @@ Progress: [███████░░░] 67%
 
 *Updated after each plan completion*
 | Phase 01-debt-and-security-clearance P02 | 15 | 2 tasks | 6 files |
+| Phase 01-debt-and-security-clearance P03 | 10 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,7 @@ Recent decisions affecting current work:
 - [Pre-phase]: Use `github.com/mark3labs/mcp-go` for MCP scaffolding — only new external dep; official Go SDK stability unverified as of 2026-03
 - [Phase 01-02]: AIClient.client field stores *http.Client at construction time to eliminate test race on newHTTPClient var
 - [Phase 01-02]: Removed t.Parallel() from TestAIClientTimeout — mutates package-level var, races with TestCallClaudeResponseDecoding
+- [Phase 01-03]: Keep execCommand factory var for testability — StdinPipe works on mock-returned *exec.Cmd
 
 ### Pending Todos
 
@@ -80,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T20:08:21.662Z
-Stopped at: Completed 01-02-PLAN.md — FOUND-01 and FOUND-03 fixed, all 7 tests GREEN
+Last session: 2026-03-09T20:12:03.314Z
+Stopped at: Completed 01-03-PLAN.md — FOUND-02 fixed, shell injection eliminated, all tests GREEN
 Resume file: None
