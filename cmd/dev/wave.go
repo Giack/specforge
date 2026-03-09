@@ -2,6 +2,7 @@ package dev
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -83,43 +84,51 @@ func executeWithClaude(prompt, taskName string) error {
 		return fmt.Errorf("ANTHROPIC_API_KEY not set")
 	}
 
-	script := fmt.Sprintf(`#!/bin/bash
-echo "🤖 Executing task: %s"
-echo "%s" | claude -p --dangerously-skip-permissions
-`, taskName, prompt)
+	fmt.Printf("Running task %s with Claude...\n", taskName)
 
-	scriptFile := "/tmp/specforge_exec.sh"
-	if err := os.WriteFile(scriptFile, []byte(script), 0755); err != nil {
-		return fmt.Errorf("failed to write script: %w", err)
-	}
-
-	execCmd := execCommand("bash", scriptFile)
+	execCmd := execCommand("claude", "-p", "--dangerously-skip-permissions")
 	execCmd.Stdout = os.Stdout
 	execCmd.Stderr = os.Stderr
-	execCmd.Stdin = os.Stdin
 
-	return execCmd.Run()
+	stdin, err := execCmd.StdinPipe()
+	if err != nil {
+		return fmt.Errorf("failed to create stdin pipe: %w", err)
+	}
+
+	if err := execCmd.Start(); err != nil {
+		return fmt.Errorf("failed to start claude: %w", err)
+	}
+
+	if _, err := io.WriteString(stdin, prompt); err != nil {
+		return fmt.Errorf("failed to write prompt: %w", err)
+	}
+	stdin.Close()
+
+	return execCmd.Wait()
 }
 
 func executeWithOpenCode(prompt, taskName string) error {
-	fmt.Printf("🤖 Running task %s with OpenCode...\n", taskName)
+	fmt.Printf("Running task %s with OpenCode...\n", taskName)
 
-	script := fmt.Sprintf(`#!/bin/bash
-echo "🤖 Executing task: %s"
-echo "%s" | opencode -p
-`, taskName, prompt)
-
-	scriptFile := "/tmp/specforge_exec.sh"
-	if err := os.WriteFile(scriptFile, []byte(script), 0755); err != nil {
-		return fmt.Errorf("failed to write script: %w", err)
-	}
-
-	execCmd := execCommand("bash", scriptFile)
+	execCmd := execCommand("opencode", "-p")
 	execCmd.Stdout = os.Stdout
 	execCmd.Stderr = os.Stderr
-	execCmd.Stdin = os.Stdin
 
-	return execCmd.Run()
+	stdin, err := execCmd.StdinPipe()
+	if err != nil {
+		return fmt.Errorf("failed to create stdin pipe: %w", err)
+	}
+
+	if err := execCmd.Start(); err != nil {
+		return fmt.Errorf("failed to start opencode: %w", err)
+	}
+
+	if _, err := io.WriteString(stdin, prompt); err != nil {
+		return fmt.Errorf("failed to write prompt: %w", err)
+	}
+	stdin.Close()
+
+	return execCmd.Wait()
 }
 
 func waveCmd(cfg *config.Config) *cobra.Command {

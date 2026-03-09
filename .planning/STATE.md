@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
+stopped_at: Completed 01-02-PLAN.md — FOUND-01 and FOUND-03 fixed, all 7 tests GREEN
+last_updated: "2026-03-09T20:08:21.665Z"
+last_activity: 2026-03-09 — Completed 01-01 (TDD red scaffolding for FOUND-01, FOUND-02, FOUND-03)
+progress:
+  total_phases: 4
+  completed_phases: 0
+  total_plans: 3
+  completed_plans: 2
+  percent: 67
+---
+
 # Project State
 
 ## Project Reference
@@ -14,7 +30,7 @@ Plan: 1 of TBD in current phase
 Status: Executing
 Last activity: 2026-03-09 — Completed 01-01 (TDD red scaffolding for FOUND-01, FOUND-02, FOUND-03)
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
@@ -34,6 +50,7 @@ Progress: [█░░░░░░░░░] 10%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 01-debt-and-security-clearance P02 | 15 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -48,6 +65,8 @@ Recent decisions affecting current work:
 - [Pre-phase]: Fix shell injection before MCP work — shell injection becomes machine-compromise vector once MCP tools can invoke wave autonomously
 - [Pre-phase]: MCP server over raw CLI for Claude Code — MCP gives Claude Code tools, not just slash commands
 - [Pre-phase]: Use `github.com/mark3labs/mcp-go` for MCP scaffolding — only new external dep; official Go SDK stability unverified as of 2026-03
+- [Phase 01-02]: AIClient.client field stores *http.Client at construction time to eliminate test race on newHTTPClient var
+- [Phase 01-02]: Removed t.Parallel() from TestAIClientTimeout — mutates package-level var, races with TestCallClaudeResponseDecoding
 
 ### Pending Todos
 
@@ -61,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09
-Stopped at: Completed 01-01-PLAN.md — TDD red scaffolding complete; ready for Wave 2 fixes
+Last session: 2026-03-09T20:08:21.662Z
+Stopped at: Completed 01-02-PLAN.md — FOUND-01 and FOUND-03 fixed, all 7 tests GREEN
 Resume file: None
