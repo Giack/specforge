@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-03-15T16:50:38.535Z"
+stopped_at: Completed 02-04-PLAN.md
+last_updated: "2026-03-15T16:55:44.696Z"
 last_activity: 2026-03-09 — Completed 01-01 (TDD red scaffolding for FOUND-01, FOUND-02, FOUND-03)
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
   percent: 67
 ---
 
@@ -55,6 +55,7 @@ Progress: [███████░░░] 67%
 | Phase 02-codebase-mapping P01 | 2 | 1 tasks | 9 files |
 | Phase 02-codebase-mapping P02 | 2 | 2 tasks | 3 files |
 | Phase 02-codebase-mapping P03 | 10 | 1 tasks | 1 files |
+| Phase 02-codebase-mapping P04 | 10 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,8 @@ Recent decisions affecting current work:
 - [Phase 02-codebase-mapping]: AIClient.Generate bypasses buildPrompt — caller owns full prompt construction for map document generation
 - [Phase 02-codebase-mapping]: Each prompt builder slices only its relevant snapshot fields — no full snapshot dumps; AI fills content under hardcoded GSD headings
 - [Phase 02-codebase-mapping]: ConcernsPrompt instructs Claude to include Severity: High/Medium/Low per concern — locked CONTEXT.md requirement
+- [Phase 02-codebase-mapping]: Package-level var injection (newAIClient, outputDir) in cmd/map enables test isolation without changing runMap signature
+- [Phase 02-codebase-mapping]: generator interface (single Generate method) kept internal to cmd/map — test double pattern without exported interface
 
 ### Pending Todos
 
@@ -91,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T16:50:38.531Z
-Stopped at: Completed 02-03-PLAN.md
+Last session: 2026-03-15T16:55:44.693Z
+Stopped at: Completed 02-04-PLAN.md
 Resume file: None
