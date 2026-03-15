@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-15T16:47:44.246Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-03-15T16:50:38.535Z"
 last_activity: 2026-03-09 — Completed 01-01 (TDD red scaffolding for FOUND-01, FOUND-02, FOUND-03)
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
   percent: 67
 ---
 
@@ -54,6 +54,7 @@ Progress: [███████░░░] 67%
 | Phase 01-debt-and-security-clearance P03 | 10 | 1 tasks | 1 files |
 | Phase 02-codebase-mapping P01 | 2 | 1 tasks | 9 files |
 | Phase 02-codebase-mapping P02 | 2 | 2 tasks | 3 files |
+| Phase 02-codebase-mapping P03 | 10 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,8 @@ Recent decisions affecting current work:
 - [Phase 02-codebase-mapping]: testdata/simple is an isolated Go module (own go.mod) so WalkProject treats it as standalone project root
 - [Phase 02-codebase-mapping]: WalkProject uses parser.ParseFile per .go file (not ParseDir) to avoid missing build-tag-gated files
 - [Phase 02-codebase-mapping]: AIClient.Generate bypasses buildPrompt — caller owns full prompt construction for map document generation
+- [Phase 02-codebase-mapping]: Each prompt builder slices only its relevant snapshot fields — no full snapshot dumps; AI fills content under hardcoded GSD headings
+- [Phase 02-codebase-mapping]: ConcernsPrompt instructs Claude to include Severity: High/Medium/Low per concern — locked CONTEXT.md requirement
 
 ### Pending Todos
 
@@ -88,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T16:47:44.242Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-15T16:50:38.531Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
