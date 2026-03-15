@@ -43,7 +43,13 @@ Plans:
   2. Progress messages appear on stderr while the command runs; stdout contains no stray output
   3. Running `specforge map --update CONCERNS.md` regenerates only that file without modifying the other six
   4. Each generated document matches the GSD codebase map template structure (correct headings, key-value tables, file path references)
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Wave 0 TDD scaffold: RED tests + stub contracts for mapper package and map command
+- [ ] 02-02-PLAN.md — AST engine: WalkProject implementation, WriteDocument helper, AIClient.Generate method
+- [ ] 02-03-PLAN.md — Prompt builders: 7 GSD template prompt functions with hardcoded headings
+- [ ] 02-04-PLAN.md — Cobra command: cmd/map with parallel goroutine dispatch, --update flag, main.go registration
 
 ### Phase 3: Memory and GSD Docs
 **Goal**: A developer can scaffold persistent AI memory and generate the full GSD planning document set from the terminal
@@ -75,6 +81,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Debt and Security Clearance | 3/3 | Complete   | 2026-03-09 |
-| 2. Codebase Mapping | 0/TBD | Not started | - |
+| 2. Codebase Mapping | 0/4 | Not started | - |
 | 3. Memory and GSD Docs | 0/TBD | Not started | - |
 | 4. MCP Server and Claude Code Integration | 0/TBD | Not started | - |
