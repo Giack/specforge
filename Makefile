@@ -2,7 +2,7 @@
 
 # Build variables
 BINARY_NAME=bin/specforge
-GO_CMD=/Users/gsortino/.local/share/mise/installs/go/1.26.0/bin/go
+GO_CMD=go
 GO_BUILD=$(GO_CMD) build
 GO_INSTALL=$(GO_CMD) install
 MAIN_PATH=cmd/specforge

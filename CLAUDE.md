@@ -12,12 +12,6 @@ GOROOT=/usr/local/go go test ./...
 GOROOT=/usr/local/go go test ./internal/mapper/... ./cmd/map/...
 ```
 
-Or alternatively use the native arm64 binary directly:
-
-```bash
-/Users/gsortino/.local/share/mise/installs/go/1.26.0/bin/go build ./...
-```
-
 The `GOROOT=/usr/local/go` prefix is the standard workaround in this project for all agents.
 
 ## Module
