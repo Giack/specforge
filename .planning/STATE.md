@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-15T16:38:00.901Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-15T16:47:44.246Z"
 last_activity: 2026-03-09 — Completed 01-01 (TDD red scaffolding for FOUND-01, FOUND-02, FOUND-03)
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 7
-  completed_plans: 4
+  completed_plans: 5
   percent: 67
 ---
 
@@ -53,6 +53,7 @@ Progress: [███████░░░] 67%
 | Phase 01-debt-and-security-clearance P02 | 15 | 2 tasks | 6 files |
 | Phase 01-debt-and-security-clearance P03 | 10 | 1 tasks | 1 files |
 | Phase 02-codebase-mapping P01 | 2 | 1 tasks | 9 files |
+| Phase 02-codebase-mapping P02 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,8 @@ Recent decisions affecting current work:
 - [Phase 01-03]: Keep execCommand factory var for testability — StdinPipe works on mock-returned *exec.Cmd
 - [Phase 02-codebase-mapping]: cmd/map package named 'mapcommand' to avoid collision with map builtin; white-box tests access unexported runMap
 - [Phase 02-codebase-mapping]: testdata/simple is an isolated Go module (own go.mod) so WalkProject treats it as standalone project root
+- [Phase 02-codebase-mapping]: WalkProject uses parser.ParseFile per .go file (not ParseDir) to avoid missing build-tag-gated files
+- [Phase 02-codebase-mapping]: AIClient.Generate bypasses buildPrompt — caller owns full prompt construction for map document generation
 
 ### Pending Todos
 
@@ -85,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T16:38:00.898Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-15T16:47:44.242Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
