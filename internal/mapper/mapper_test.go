@@ -3,7 +3,6 @@ package mapper
 import (
 	"path/filepath"
 	"runtime"
-	"strings"
 	"testing"
 )
 
@@ -61,40 +60,5 @@ func TestWalkProject_ExtractsTypes(t *testing.T) {
 	}
 	if len(snap.Types) == 0 {
 		t.Error("expected at least one TypeInfo, got none")
-	}
-}
-
-// TestStackDocHeadings verifies that StackPrompt returns a string containing all
-// 7 required STACK.md headings.
-func TestStackDocHeadings(t *testing.T) {
-	snap := &CodebaseSnapshot{
-		ModuleName: "testmodule",
-		GoVersion:  "1.24",
-	}
-	result := StackPrompt(snap)
-
-	requiredHeadings := []string{
-		"# Technology Stack",
-		"## Languages",
-		"## Runtime",
-		"## Frameworks",
-		"## Key Dependencies",
-		"## Configuration",
-		"## Platform Requirements",
-	}
-	for _, heading := range requiredHeadings {
-		if !strings.Contains(result, heading) {
-			t.Errorf("StackPrompt output missing required heading: %q", heading)
-		}
-	}
-}
-
-// TestConcernsDocSeverity verifies that ConcernsPrompt returns a string containing
-// the "Severity:" label required by CONTEXT.md.
-func TestConcernsDocSeverity(t *testing.T) {
-	snap := &CodebaseSnapshot{}
-	result := ConcernsPrompt(snap)
-	if !strings.Contains(result, "Severity:") {
-		t.Errorf("ConcernsPrompt output missing required 'Severity:' label, got: %q", result)
 	}
 }

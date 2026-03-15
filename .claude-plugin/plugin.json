@@ -1,0 +1,9 @@
+{
+  "name": "specforge",
+  "description": "Map any codebase to Skills 2.0 domain artifacts — SKILL.md files, enriched CLAUDE.md, and architecture diagrams. Run /specforge:map to analyze and document your codebase.",
+  "version": "0.1.0",
+  "author": {
+    "name": "SpecForge",
+    "email": ""
+  }
+}
