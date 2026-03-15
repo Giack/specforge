@@ -14,6 +14,40 @@ info()  { printf '\033[0;34m[specforge]\033[0m %s\n' "$*"; }
 ok()    { printf '\033[0;32m[specforge]\033[0m %s\n' "$*"; }
 die()   { printf '\033[0;31m[specforge] error:\033[0m %s\n' "$*" >&2; exit 1; }
 
+# ── plugin installer ──────────────────────────────────────────────────────────
+
+install_plugin() {
+  local version="$1"
+  local plugin_dir="${HOME}/.claude/plugins/specforge"
+  local tarball_url="https://github.com/${REPO}/archive/refs/tags/${version}.tar.gz"
+  local tmp_src="${TMP_DIR}/src"
+
+  info "Installing Claude Code plugin..."
+  info "Downloading source tarball ${tarball_url} ..."
+
+  mkdir -p "${tmp_src}"
+
+  if command -v curl &>/dev/null; then
+    curl -sSfL "${tarball_url}" \
+      | tar -xz -C "${tmp_src}" --strip-components=1 \
+      || die "Plugin download/extract failed for ${tarball_url}"
+  else
+    wget -qO- "${tarball_url}" \
+      | tar -xz -C "${tmp_src}" --strip-components=1 \
+      || die "Plugin download/extract failed for ${tarball_url}"
+  fi
+
+  rm -rf "${plugin_dir}"
+  mkdir -p "${plugin_dir}"
+
+  cp -r "${tmp_src}/commands" "${plugin_dir}/commands"
+  cp -r "${tmp_src}/agents"   "${plugin_dir}/agents"
+  cp -r "${tmp_src}/skills"   "${plugin_dir}/skills"
+  cp    "${tmp_src}/.claude-plugin/plugin.json" "${plugin_dir}/plugin.json"
+
+  ok "Plugin installed to ~/.claude/plugins/specforge"
+}
+
 # ── detect platform ───────────────────────────────────────────────────────────
 
 detect_os() {
@@ -36,16 +70,19 @@ detect_arch() {
 
 PREFIX="${DEFAULT_PREFIX}"
 VERSION="latest"
+INSTALL_PLUGIN=true
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --prefix) PREFIX="$2"; shift 2 ;;
     --version) VERSION="$2"; shift 2 ;;
+    --no-plugin) INSTALL_PLUGIN=false; shift ;;
     -h|--help)
-      echo "Usage: install.sh [--prefix DIR] [--version TAG]"
+      echo "Usage: install.sh [--prefix DIR] [--version TAG] [--no-plugin]"
       echo ""
       echo "  --prefix DIR     Install to DIR/bin (default: ~/.local)"
       echo "  --version TAG    Install specific release tag (default: latest)"
+      echo "  --no-plugin      Skip Claude Code plugin installation"
       exit 0
       ;;
     *) die "Unknown argument: $1" ;;
@@ -108,6 +145,10 @@ mv "${TMP_BIN}" "${BIN_DIR}/${BINARY}"
 
 ok "specforge ${VERSION} installed to ${BIN_DIR}/${BINARY}"
 
+if [[ "${INSTALL_PLUGIN}" == "true" ]]; then
+  install_plugin "${VERSION}"
+fi
+
 # ── PATH hint ─────────────────────────────────────────────────────────────────
 
 if ! command -v specforge &>/dev/null; then
@@ -132,4 +173,8 @@ if ! command -v specforge &>/dev/null; then
   echo ""
 fi
 
-ok "Done! Run: specforge --help"
+if [[ "${INSTALL_PLUGIN}" == "true" ]]; then
+  ok "Done! Run: specforge --help  |  In Claude Code: /specforge:map"
+else
+  ok "Done! Run: specforge --help"
+fi

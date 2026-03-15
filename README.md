@@ -14,19 +14,49 @@ mapper agents to generate Skills 2.0 artifacts per domain.
 
 ## Installation
 
+### Quick install (binary + Claude Code plugin)
+
+```bash
+curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash
+```
+
+This installs:
+- `specforge` binary → `~/.local/bin/specforge`
+- Claude Code plugin → `~/.claude/plugins/specforge/`
+
+> **Plugin only** (no binary): If you only need the Claude Code plugin, run:
+> ```
+> claude plugin install github:Giack/specforge
+> ```
+
+### Options
+
+```bash
+# Install to a custom prefix
+curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash -s -- --prefix /usr/local
+
+# Pin to a specific release
+curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash -s -- --version v0.1.0
+
+# Binary only, skip the Claude Code plugin
+curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash -s -- --no-plugin
+```
+
 ### From source
 
 ```bash
 git clone https://github.com/Giack/specforge.git
 cd specforge
 make build          # → bin/specforge
-make install        # → installs to GOPATH/bin
+make install        # → installs to $GOPATH/bin
 ```
 
-### Binary (once releases are published)
+To also install the plugin from source:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash
+mkdir -p ~/.claude/plugins/specforge
+cp -r commands agents skills ~/.claude/plugins/specforge/
+cp .claude-plugin/plugin.json ~/.claude/plugins/specforge/plugin.json
 ```
 
 ## CLI Usage
