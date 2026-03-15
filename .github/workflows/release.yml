@@ -69,7 +69,6 @@ jobs:
           gh release create latest \
             --title "Latest (main)" \
             --notes "Automated release from \`main\` — commit ${COMMIT_SHA}" \
-            --prerelease \
             specforge-darwin-amd64 \
             specforge-darwin-arm64 \
             specforge-linux-amd64 \
