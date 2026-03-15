@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-03-PLAN.md — FOUND-02 fixed, shell injection eliminated, all tests GREEN
-last_updated: "2026-03-09T20:15:13.706Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-15T16:38:00.901Z"
 last_activity: 2026-03-09 — Completed 01-01 (TDD red scaffolding for FOUND-01, FOUND-02, FOUND-03)
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 7
+  completed_plans: 4
   percent: 67
 ---
 
@@ -52,6 +52,7 @@ Progress: [███████░░░] 67%
 *Updated after each plan completion*
 | Phase 01-debt-and-security-clearance P02 | 15 | 2 tasks | 6 files |
 | Phase 01-debt-and-security-clearance P03 | 10 | 1 tasks | 1 files |
+| Phase 02-codebase-mapping P01 | 2 | 1 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,8 @@ Recent decisions affecting current work:
 - [Phase 01-02]: AIClient.client field stores *http.Client at construction time to eliminate test race on newHTTPClient var
 - [Phase 01-02]: Removed t.Parallel() from TestAIClientTimeout — mutates package-level var, races with TestCallClaudeResponseDecoding
 - [Phase 01-03]: Keep execCommand factory var for testability — StdinPipe works on mock-returned *exec.Cmd
+- [Phase 02-codebase-mapping]: cmd/map package named 'mapcommand' to avoid collision with map builtin; white-box tests access unexported runMap
+- [Phase 02-codebase-mapping]: testdata/simple is an isolated Go module (own go.mod) so WalkProject treats it as standalone project root
 
 ### Pending Todos
 
@@ -82,6 +85,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T20:12:03.314Z
-Stopped at: Completed 01-03-PLAN.md — FOUND-02 fixed, shell injection eliminated, all tests GREEN
+Last session: 2026-03-15T16:38:00.898Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None

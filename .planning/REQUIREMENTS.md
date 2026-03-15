@@ -13,10 +13,10 @@
 
 ### Codebase Mapping
 
-- [ ] **MAP-01**: `specforge map` command analyzes a Go project and produces all 7 GSD codebase documents in `.planning/codebase/` (STACK.md, ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md, TESTING.md, INTEGRATIONS.md, CONCERNS.md)
-- [ ] **MAP-02**: `specforge map` runs analysis in parallel (goroutines per document category) and reports progress to stderr
-- [ ] **MAP-03**: `specforge map --update <doc>` regenerates a single document without overwriting others
-- [ ] **MAP-04**: Each generated document follows the GSD codebase map template structure (headings, key-value tables, file path references)
+- [x] **MAP-01**: `specforge map` command analyzes a Go project and produces all 7 GSD codebase documents in `.planning/codebase/` (STACK.md, ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md, TESTING.md, INTEGRATIONS.md, CONCERNS.md)
+- [x] **MAP-02**: `specforge map` runs analysis in parallel (goroutines per document category) and reports progress to stderr
+- [x] **MAP-03**: `specforge map --update <doc>` regenerates a single document without overwriting others
+- [x] **MAP-04**: Each generated document follows the GSD codebase map template structure (headings, key-value tables, file path references)
 
 ### GSD Document Management
 
@@ -69,10 +69,10 @@
 | FOUND-01 | Phase 1 | Complete |
 | FOUND-02 | Phase 1 | Complete |
 | FOUND-03 | Phase 1 | Complete |
-| MAP-01 | Phase 2 | Pending |
-| MAP-02 | Phase 2 | Pending |
-| MAP-03 | Phase 2 | Pending |
-| MAP-04 | Phase 2 | Pending |
+| MAP-01 | Phase 2 | Complete |
+| MAP-02 | Phase 2 | Complete |
+| MAP-03 | Phase 2 | Complete |
+| MAP-04 | Phase 2 | Complete |
 | DOCS-01 | Phase 3 | Pending |
 | DOCS-02 | Phase 3 | Pending |
 | DOCS-03 | Phase 3 | Pending |
