@@ -40,7 +40,7 @@ Tell the user:
 ```
 specforge binary not found. Install options:
 
-1. Download release: curl -sSL https://raw.githubusercontent.com/specforge/specforge/main/install.sh | bash
+1. Download release: curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash
 2. Build from source: cd [path-to-specforge-repo] && GOROOT=/usr/local/go go build -o ~/.local/bin/specforge ./cmd/specforge
 ```
 

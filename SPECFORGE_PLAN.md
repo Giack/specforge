@@ -1,3 +1,5 @@
+> **Vision Roadmap** — This document describes the future vision for SpecForge, not the current implementation. See `README.md` for what is built today.
+
 # SpecForge - Enterprise Spec-Driven Development Tool
 
 ## Vision

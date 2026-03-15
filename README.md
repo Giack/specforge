@@ -1,125 +1,93 @@
 # SpecForge
 
-Enterprise Spec-Driven Development Tool - CLI written in Golang
+Codebase analyzer and Claude Code plugin for Spec-Driven Development.
 
-## Overview
+## What it does today
 
-SpecForge bridges business requirements (Confluence/Jira) with AI execution engines (Claude Code/OpenCode) using Spec-Driven Development principles.
+**CLI** (`specforge analyze`): Walks a codebase and outputs structured JSON of
+packages, types, functions, and imports. Supports Go, TypeScript, Python, Kotlin
+with auto-detection.
+
+**Claude Code plugin** (`/specforge:map`): Interactive command that runs
+`specforge analyze`, detects architectural domains, and dispatches parallel
+mapper agents to generate Skills 2.0 artifacts per domain.
 
 ## Installation
 
-```bash
-# Build from source
-make build
-
-# Or install globally
-make install
-```
-
-## Configuration
-
-Copy `config.example.yaml` to `~/.specforge/config.yaml` and fill in your credentials:
-
-```yaml
-atlassian:
-  domain: your-company
-  email: your-email@company.com
-  api_token: your-api-token
-  project_key: PROJ
-
-# Version Control System (GitHub, GitLab, or Bitbucket)
-vcs:
-  provider: github  # github, gitlab, bitbucket
-
-  github:
-    token: ghp_your_token
-    owner: your-org
-    repo: your-repo
-
-  gitlab:
-    domain: gitlab.com
-    token: glpat_your_token
-    group: your-group
-
-  bitbucket:
-    domain: bitbucket.org
-    username: your-username
-    app_password: your-app_password
-    workspace: your-workspace
-
-ai:
-  provider: claude
-  model: sonnet-4-20250514
-```
-
-## Getting Started
-
-### 1. Initialize SpecForge Commands
-
-Install the Claude Code/OpenCode commands:
+### From source
 
 ```bash
-make init
+git clone https://github.com/Giack/specforge.git
+cd specforge
+make build          # → bin/specforge
+make install        # → installs to GOPATH/bin
 ```
 
-### 2. PM Workflow - Sync Requirements
+### Binary (once releases are published)
 
 ```bash
-# Sync from Confluence
-specforge pm sync --type confluence --url "https://your-company.atlassian.net/wiki/spaces/PROJ/pages/123456789"
-
-# Sync from Jira
-specforge pm sync --type jira --url "https://your-company.atlassian.net/browse/PROJ-123?issueKey=PROJ-123"
+curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash
 ```
 
-### 3. EM Workflow - Architect & Verify
+## CLI Usage
 
 ```bash
-# Analyze requirements and create roadmaps
-specforge em architect
+# Analyze current directory (auto-detect language)
+specforge analyze
 
-# Run UAT verification
-specforge em verify
+# Analyze specific path, force Go, exclude vendor
+specforge analyze ./myproject --lang go --exclude vendor,testdata
 
-# Create bug from UAT feedback
-specforge em bug --feedback "Login button doesn't show spinner"
+# Output as Markdown summary instead of JSON
+specforge analyze --format markdown
 ```
 
-### 4. Dev Workflow
+**Flags:**
 
-Run these commands **inside Claude Code or OpenCode**:
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--lang` | `auto` | `go` \| `ts` \| `kotlin` \| `python` \| `auto` |
+| `--format` | `json` | `json` \| `markdown` |
+| `--exclude` | — | Comma-separated dirs to exclude |
 
-```bash
-# Start the workflow
-/specforge:dev-discuss
+## Claude Code Plugin: /specforge:map
 
-# Create execution plans
-/specforge:dev-plan
+Run inside Claude Code to map a codebase into Skills 2.0 domain artifacts:
 
-# Execute with parallel sub-agents
-/specforge:dev-execute
-
-# Fix a Jira bug
-/specforge:dev-fix PROJ-123
 ```
+/specforge:map [path]
+```
+
+The command will:
+1. Ask you for language, domains, and exclude dirs
+2. Run `specforge analyze` to gather structure
+3. Detect or confirm architectural domains
+4. Spawn parallel mapper agents (tech, arch, quality, concerns) per domain
+5. Write `.claude/skills/[domain]/*.md` artifacts
+6. Enrich or create `CLAUDE.md` with architecture context
+
+**Requires `specforge` binary on PATH.** Install from source if not present.
 
 ## Architecture
 
-- **Core CLI**: Golang binary handling business logic
-- **Skill Injector**: `specforge init` installs commands into Claude Code
-- **Sub-agents**: Execution uses fresh context per task to prevent context rot
+- **`cmd/specforge/`** — Cobra root command + version
+- **`cmd/analyze/`** — `analyze` subcommand
+- **`internal/analyzer/`** — multi-language analysis (detect, go, ts, python, kotlin)
+- **`internal/mapper/`** — AST mapper + snapshot logic for Go
+- **`commands/map.md`** — `/specforge:map` Claude Code plugin command
+- **`agents/`** — mapper agent definitions (tech, arch, quality, concerns, synthesizer)
+- **`skills/`** — specforge-mapper-workflow and specforge-output-format skills
 
-## Commands
+## Building
 
-| Command | Description |
-|---------|-------------|
-| `specforge init` | Install Claude Code commands |
-| `specforge pm sync` | Sync requirements from Confluence/Jira |
-| `specforge em architect` | Create domain roadmaps |
-| `specforge em verify` | Run UAT checklist |
-| `specforge em bug` | Create Jira bug from feedback |
-| `/specforge:dev-discuss` | Capture implementation context |
-| `/specforge:dev-plan` | Create atomic execution plans |
-| `/specforge:dev-execute` | Execute plans with sub-agents |
-| `/specforge:dev-fix` | Fix Jira bug with AI debugger |
-| `specforge dev pr` | Create Pull Request (GitHub/GitLab/Bitbucket) |
+```bash
+GOROOT=/usr/local/go go build ./...
+GOROOT=/usr/local/go go test ./...
+```
+
+See `CLAUDE.md` for Apple Silicon Go toolchain notes.
+
+## Roadmap
+
+See `SPECFORGE_PLAN.md` for the full vision: PM → EM → Dev → QA workflows
+with Atlassian/Jira integration, TUI, and multi-repo support.

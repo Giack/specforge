@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # install.sh — SpecForge binary installer
-# Usage: curl -sSL https://raw.githubusercontent.com/specforge/specforge/main/install.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash
 # Or:    ./install.sh [--prefix /usr/local]
 set -euo pipefail
 
-REPO="specforge/specforge"
+REPO="Giack/specforge"
 BINARY="specforge"
 DEFAULT_PREFIX="${HOME}/.local"
 
