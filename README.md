@@ -17,7 +17,7 @@ mapper agents to generate Skills 2.0 artifacts per domain.
 ### From source
 
 ```bash
-git clone https://github.com/gsortino/specforge.git
+git clone https://github.com/Giack/specforge.git
 cd specforge
 make build          # → bin/specforge
 make install        # → installs to GOPATH/bin
@@ -26,7 +26,7 @@ make install        # → installs to GOPATH/bin
 ### Binary (once releases are published)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/gsortino/specforge/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/Giack/specforge/main/install.sh | bash
 ```
 
 ## CLI Usage
