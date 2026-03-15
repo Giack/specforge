@@ -194,6 +194,18 @@ func (a *AIClient) callOpenCode(prompt string) (string, error) {
 	return strings.TrimSpace(out.String()), nil
 }
 
+// Generate dispatches prompt directly to the configured AI provider,
+// bypassing buildPrompt routing. Use for map document generation where
+// the full prompt is constructed by the caller.
+func (a *AIClient) Generate(prompt string) (string, error) {
+	switch a.config.Provider {
+	case "opencode":
+		return a.callOpenCode(prompt)
+	default:
+		return a.callClaude(prompt)
+	}
+}
+
 func (a *AIClient) GenerateMermaidDiagram(architecture string) (string, error) {
 	prompt := fmt.Sprintf(`Create a Mermaid.js diagram showing the architecture.
 
