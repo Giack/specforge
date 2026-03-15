@@ -1,8 +1,12 @@
 package analyze
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
+
+	"specforge/internal/analyzer"
 
 	"github.com/spf13/cobra"
 )
@@ -23,6 +27,49 @@ func NewCommand() *cobra.Command {
 }
 
 func runAnalyze(cmd *cobra.Command, args []string) error {
-	fmt.Fprintln(os.Stderr, "analyze: not yet implemented — coming in next phase")
-	return nil
+	root := "."
+	if len(args) > 0 {
+		root = args[0]
+	}
+
+	lang, _ := cmd.Flags().GetString("lang")
+	format, _ := cmd.Flags().GetString("format")
+	excludeRaw, _ := cmd.Flags().GetString("exclude")
+
+	var excludeDirs []string
+	if excludeRaw != "" {
+		for _, d := range strings.Split(excludeRaw, ",") {
+			d = strings.TrimSpace(d)
+			if d != "" {
+				excludeDirs = append(excludeDirs, d)
+			}
+		}
+	}
+
+	if lang == "auto" {
+		lang = analyzer.DetectLanguage(root)
+		fmt.Fprintf(os.Stderr, "detected language: %s\n", lang)
+	}
+
+	result, err := analyzer.Analyze(root, lang, excludeDirs)
+	if err != nil {
+		return fmt.Errorf("analysis failed: %w", err)
+	}
+
+	switch format {
+	case "json":
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetIndent("", "  ")
+		return enc.Encode(result)
+	case "markdown":
+		fmt.Fprintf(os.Stdout, "# Codebase Analysis\n\n")
+		fmt.Fprintf(os.Stdout, "- Language: %s\n", result.Language)
+		fmt.Fprintf(os.Stdout, "- Module: %s\n", result.Module)
+		fmt.Fprintf(os.Stdout, "- Packages: %d\n", len(result.Packages))
+		fmt.Fprintf(os.Stdout, "- Types: %d\n", len(result.Types))
+		fmt.Fprintf(os.Stdout, "- Exports: %d\n", len(result.Exports))
+		return nil
+	default:
+		return fmt.Errorf("unknown format %q: use json or markdown", format)
+	}
 }
