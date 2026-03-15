@@ -17,35 +17,25 @@ die()   { printf '\033[0;31m[specforge] error:\033[0m %s\n' "$*" >&2; exit 1; }
 # ── plugin installer ──────────────────────────────────────────────────────────
 
 install_plugin() {
-  local version="$1"
-  local plugin_dir="${HOME}/.claude/plugins/specforge"
-  local tarball_url="https://github.com/${REPO}/archive/refs/tags/${version}.tar.gz"
-  local tmp_src="${TMP_DIR}/src"
-
-  info "Installing Claude Code plugin..."
-  info "Downloading source tarball ${tarball_url} ..."
-
-  mkdir -p "${tmp_src}"
-
-  if command -v curl &>/dev/null; then
-    curl -sSfL "${tarball_url}" \
-      | tar -xz -C "${tmp_src}" --strip-components=1 \
-      || die "Plugin download/extract failed for ${tarball_url}"
-  else
-    wget -qO- "${tarball_url}" \
-      | tar -xz -C "${tmp_src}" --strip-components=1 \
-      || die "Plugin download/extract failed for ${tarball_url}"
+  if ! command -v claude &>/dev/null; then
+    info "Claude Code CLI not found — skipping plugin install."
+    info "To install manually: claude plugin marketplace add Giack/specforge && claude plugin install specforge"
+    return
   fi
 
-  rm -rf "${plugin_dir}"
-  mkdir -p "${plugin_dir}"
+  info "Installing Claude Code plugin via claude CLI..."
 
-  cp -r "${tmp_src}/commands" "${plugin_dir}/commands"
-  cp -r "${tmp_src}/agents"   "${plugin_dir}/agents"
-  cp -r "${tmp_src}/skills"   "${plugin_dir}/skills"
-  cp    "${tmp_src}/.claude-plugin/plugin.json" "${plugin_dir}/plugin.json"
+  # Remove stale marketplace entry if present, then re-add from GitHub
+  claude plugin marketplace remove specforge 2>/dev/null || true
+  claude plugin marketplace add Giack/specforge \
+    || die "Failed to add specforge marketplace"
 
-  ok "Plugin installed to ~/.claude/plugins/specforge"
+  # Remove stale plugin if present, then install fresh
+  claude plugin uninstall specforge --scope user 2>/dev/null || true
+  claude plugin install specforge@specforge --scope user \
+    || die "Failed to install specforge plugin"
+
+  ok "Plugin installed. Restart Claude Code to activate /specforge:map"
 }
 
 # ── detect platform ───────────────────────────────────────────────────────────

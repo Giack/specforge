@@ -1,0 +1,19 @@
+{
+  "name": "specforge",
+  "owner": {
+    "name": "SpecForge",
+    "email": ""
+  },
+  "metadata": {
+    "description": "Map any codebase to Skills 2.0 domain artifacts — SKILL.md files, enriched CLAUDE.md, and architecture diagrams.",
+    "homepage": "https://github.com/Giack/specforge"
+  },
+  "plugins": [
+    {
+      "name": "specforge",
+      "version": "0.1.0",
+      "source": "./",
+      "description": "Map any codebase to Skills 2.0 domain artifacts — SKILL.md files, enriched CLAUDE.md, and architecture diagrams. Run /specforge:map to analyze and document your codebase."
+    }
+  ]
+}
